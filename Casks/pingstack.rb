@@ -25,7 +25,7 @@ cask "pingstack" do
 
   name "pingstack"
   desc "Report scheduled jobs to a Pingstack heartbeat check"
-  homepage "https://pingstack.io"
+  homepage "https://pingstack.io/"
 
   livecheck do
     skip "Auto-generated on release."
@@ -33,11 +33,11 @@ cask "pingstack" do
 
   binary "pingstack"
 
-  postflight do
-    if OS.mac?
-      system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/pingstack"]
+  postflight_steps do
+    on_macos do
+      run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{staged_path}}/pingstack"]
     end
   end
 
-  # No zap stanza required
+  zap :not_required
 end
